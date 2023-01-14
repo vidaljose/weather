@@ -5,7 +5,9 @@ export const useWeather = () => {
     const [infoWeather, setInfoWeather] = useState("Temperature and icon")
         
     const getWeather = async () => {
-        const link = `http://api.weatherapi.com/v1/current.json?key=69ea7007ce5e44208ce131139231401&q=Caracas&aqi=no`
+        const link = import.meta.env.VITE_WEATHER_API
+        console.log("inicio link")
+        console.log(link)
         const {data} = await axios.get(link)
         const info = {
             country: data.location.country,
