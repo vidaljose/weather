@@ -1,11 +1,12 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 
-export const useWeather = () => {
+export const useWeather = (place) => {
     const [infoWeather, setInfoWeather] = useState("Temperature and icon")
+    const [placeState,setPlaceState] = useState(place)
         
     const getWeather = async () => {
-        const link = import.meta.env.VITE_WEATHER_API
+        const link = `http://api.weatherapi.com/v1/current.json?key=${import.meta.env.VITE_WEATHER_API_KEY}&q=${placeState}&aqi=no`
         console.log("inicio link")
         console.log(link)
         const {data} = await axios.get(link)
@@ -17,10 +18,16 @@ export const useWeather = () => {
         setInfoWeather(info)
     }
 
+    const setPlace = (data) =>{
+        if (data) {
+            setPlaceState(data)
+        }
+    }
+
     useEffect(()=> {
         getWeather()
-    },[])
+    },[placeState])
     
-    return {infoWeather}
+    return {infoWeather,setPlace,placeState}
 
 }
